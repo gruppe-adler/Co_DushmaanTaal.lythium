@@ -51,18 +51,54 @@
 
       }];
 
+      _curator addEventHandler ["CuratorWaypointPlaced", {
+            params ["_curator", "_group", "_waypointID"];
+
+            if (waypointType [_group, _waypointID] == "TR UNLOAD") then {
+                systemchat str _group;
+                private _position = waypointPosition [_group, _waypointID];
+                leader _group setVariable ["GRAD_WP_targetPos", _position, true];
+            };
+     }];
+
   } forEach allCurators;
 };
 
 
 
-["Dushmaan Taal - Helicopters", "UH60 Gunning Loiter WP - Start North", {
+["Dushmaan Taal - Helicopters", "UH60 Gunning Loiter - Start North", {
     params ["_position", "_object"];
     
     private _start = [12040.6,17854.3,0];
     [_start, _position] execVM "USER\scripts\loiterAttack.sqf";
      
 }] call zen_custom_modules_fnc_register;
+
+["Dushmaan Taal - Helicopters", "UH60 Gunning Loiter - Start South", {
+    params ["_position", "_object"];
+    
+    private _start = [11811.2,2291.56,0];
+    [_start, _position] execVM "USER\scripts\loiterAttack.sqf";
+     
+}] call zen_custom_modules_fnc_register;
+
+["Dushmaan Taal - Helicopters", "UH60 Reinforcements - Start South", {
+    params ["_position", "_object"];
+    
+    private _start = [11811.2,2331.31,0];
+    [_start, _position] execVM "USER\scripts\uh60reinf.sqf";
+     
+}] call zen_custom_modules_fnc_register;
+
+
+
+["Dushmaan Taal - Helicopters", "Convoy Start South", {
+    params ["_position", "_object"];
+    
+    missionNamespace setVariable ["blufor_convoy_1", true, true];
+     
+}] call zen_custom_modules_fnc_register;
+
 
 
 

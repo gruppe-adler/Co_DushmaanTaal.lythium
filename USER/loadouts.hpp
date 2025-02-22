@@ -18,9 +18,9 @@
 */
 
 
-loadoutFactionBlu = "LivoniaDF";
+loadoutFactionBlu = "";
 loadoutFactionOpf = "";
-loadoutFactionInd = "";
+loadoutFactionInd = "Taliban";
 
 // Achtung: grad-factions enthält derzeit keine Loadouts, die für Zivilisten funktionieren
 loadoutFactionCiv = "";

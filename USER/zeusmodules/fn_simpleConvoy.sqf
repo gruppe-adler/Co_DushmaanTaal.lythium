@@ -5,14 +5,14 @@ params ["_unitArray", "_waypoint"];
 private _logicCenter = createCenter sideLogic;
 private _logicGroup = createGroup _logicCenter;
 private _convoy = _logicGroup createUnit ["Logic", [0,0,0], [], 0, "NONE"];
-_convoy setVariable ["maxSpeed", 45];
-_convoy setVariable ["convSeparation", 20];
+_convoy setVariable ["maxSpeed", 65];
+_convoy setVariable ["convSeparation", 35];
 _convoy setVariable ["stiffnessCoeff", 0.2];
 _convoy setVariable ["dampingCoeff", 0.6];
 _convoy setVariable ["curvatureCoeff", 0.3];
 _convoy setVariable ["stiffnessLinkCoeff", 0.1];
-_convoy setVariable ["pathFrequecy", 0.05];
-_convoy setVariable ["speedFrequecy", 0.2];
+_convoy setVariable ["pathFrequecy", 0.01]; // 0.05
+_convoy setVariable ["speedFrequecy", 0.1]; // 0.2
 _convoy setVariable ["speedModeConv", "FULL"];
 _convoy setVariable ["behaviourConv", "pushThroughContact"];
 _convoy setVariable ["debug", false];
