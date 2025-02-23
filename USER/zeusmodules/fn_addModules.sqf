@@ -54,10 +54,24 @@
       _curator addEventHandler ["CuratorWaypointPlaced", {
             params ["_curator", "_group", "_waypointID"];
 
-            if (waypointType [_group, _waypointID] == "TR UNLOAD") then {
-                systemchat str _group;
+            if (!((vehicle leader _group) getVariable ["GRAD_WP_originPos", [0,0,0]] isEqualTo [0,0,0])) then {
+                
                 private _position = waypointPosition [_group, _waypointID];
-                leader _group setVariable ["GRAD_WP_targetPos", _position, true];
+                vehicle leader _group setVariable ["GRAD_WP_targetPos", _position, true];
+
+                "changing target wp to " + str _position call CBA_fnc_notify;
+            };
+     }];
+
+     _curator addEventHandler ["CuratorWaypointEdited", {
+            params ["_curator", "_group", "_waypointID"];
+
+            if (!((vehicle leader _group) getVariable ["GRAD_WP_originPos", [0,0,0]] isEqualTo [0,0,0])) then {
+                
+                private _position = waypointPosition [_group, _waypointID];
+                vehicle leader _group setVariable ["GRAD_WP_targetPos", _position, true];
+
+                "changing target wp to " + str _position call CBA_fnc_notify;
             };
      }];
 
@@ -66,29 +80,83 @@
 
 
 
-["Dushmaan Taal - Helicopters", "UH60 Gunning Loiter - Start North", {
+["Dushmaan Taal - Helicopter UH60", "UH60 Gunning Loiter - Start North", {
     params ["_position", "_object"];
     
     private _start = [12040.6,17854.3,0];
-    [_start, _position] execVM "USER\scripts\loiterAttack.sqf";
+    private _type = "rhs_uh60m_d";
+    [_start, _position, _type] execVM "USER\scripts\loiterAttack.sqf";
      
 }] call zen_custom_modules_fnc_register;
 
-["Dushmaan Taal - Helicopters", "UH60 Gunning Loiter - Start South", {
+["Dushmaan Taal - Helicopter CH47", "CH47 Gunning Loiter - Start North", {
+    params ["_position", "_object"];
+    
+    private _start = [12040.6,17854.3,0];
+    private _type = "RHS_CH_47F_light";
+    [_start, _position, _type] execVM "USER\scripts\loiterAttack.sqf";
+     
+}] call zen_custom_modules_fnc_register;
+
+["Dushmaan Taal - Helicopter CH53E", "CH53E Gunning Loiter - Start North", {
+    params ["_position", "_object"];
+    
+    private _start = [12040.6,17854.3,0];
+    private _type = "rhsusf_CH53E_USMC_GAU21_D";
+    [_start, _position, _type] execVM "USER\scripts\loiterAttack.sqf";
+     
+}] call zen_custom_modules_fnc_register;
+
+
+
+["Dushmaan Taal - Helicopter UH60", "UH60 Gunning Loiter - Start South", {
     params ["_position", "_object"];
     
     private _start = [11811.2,2291.56,0];
-    [_start, _position] execVM "USER\scripts\loiterAttack.sqf";
+    private _type = "rhs_uh60m_d";
+    [_start, _position, _type] execVM "USER\scripts\loiterAttack.sqf";
      
 }] call zen_custom_modules_fnc_register;
 
-["Dushmaan Taal - Helicopters", "UH60 Reinforcements - Start South", {
+["Dushmaan Taal - Helicopter CH47", "CH47 Gunning Loiter - Start South", {
+    params ["_position", "_object"];
+    
+    private _start = [11811.2,2291.56,0];
+    private _type = "RHS_CH_47F_light";
+    [_start, _position, _type] execVM "USER\scripts\loiterAttack.sqf";
+     
+}] call zen_custom_modules_fnc_register;
+
+["Dushmaan Taal - Helicopter CH53E", "CH53E Gunning Loiter - Start North", {
+    params ["_position", "_object"];
+    
+    private _start = [11811.2,2291.56,0];
+    private _type = "rhsusf_CH53E_USMC_GAU21_D";
+    [_start, _position, _type] execVM "USER\scripts\loiterAttack.sqf";
+     
+}] call zen_custom_modules_fnc_register;
+
+
+["Dushmaan Taal - Helicopter UH60", "UH60 Reinforcements - Start South", {
     params ["_position", "_object"];
     
     private _start = [11811.2,2331.31,0];
-    [_start, _position] execVM "USER\scripts\uh60reinf.sqf";
+     private _type = "rhs_uh60m_d";
+    [_start, _position, _type] execVM "USER\scripts\uh60reinf.sqf";
      
 }] call zen_custom_modules_fnc_register;
+
+["Dushmaan Taal - Helicopter CH47", "CH47 Reinforcements - Start South", {
+    params ["_position", "_object"];
+    
+    private _start = [11811.2,2331.31,0];
+     private _type = "RHS_CH_47F_light";
+    [_start, _position, _type] execVM "USER\scripts\uh60reinf.sqf";
+     
+}] call zen_custom_modules_fnc_register;
+
+
+
 
 
 

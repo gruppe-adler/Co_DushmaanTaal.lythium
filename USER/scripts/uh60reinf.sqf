@@ -1,10 +1,10 @@
-params ["_start", "_position"];
+params ["_start", "_position", "_type"];
 
 if (!isServer) exitWith {
     [[_helicopter, _position], _thisScript] remoteExec ["BIS_fnc_execVM", 2];
 };
 
-private _helicopter = "RHS_UH60M_d" createVehicle _start;
+private _helicopter = _type createVehicle _start;
 createVehicleCrew _helicopter;
 
 
@@ -26,7 +26,7 @@ _waypoint setWaypointStatements ["true", "
 private _hpad = "Land_HelipadEmpty_F" createVehicle [0,0,0];
 _hpad setPosASL _position;
 
-_helicopter flyInHeight 50;
+_helicopter flyInHeight 20;
 
 
 
@@ -36,6 +36,8 @@ private _group = createGroup west;
 	_group createUnit [_x, [0,0,0], [], 0, "NONE"];
 } forEach _unitTypes;
 
+_group setVariable ["lambs_danger_dangerFormation", "DIAMOND"];
+
 _helicopter setVariable ["GRAD_WP_cargo", units _group, true];
 
 { _x assignAsCargo _helicopter; } forEach units _group;
@@ -43,12 +45,40 @@ _helicopter setVariable ["GRAD_WP_cargo", units _group, true];
 
 
 _helicopter setCombatMode "RED";
+_helicopter enableAttack false;
+group _helicopter setVariable ["lambs_danger_disableGroupAI", true, true];
+_helicopter setVariable ["lambs_danger_disableAI", true, true];
 _helicopter disableAI "AUTOCOMBAT";
 _helicopter disableAI "Autotarget";
 _helicopter allowFleeing 0;
 _helicopter setskill ["courage",1];
 
 
+
+_helicopter doMove _position; //start move to lz, note: move looks better than a real waypoint for landing
+
+// NNS / porcinus rip 
+[_helicopter] spawn { //progressive slow down to limit heli pitch
+	_heli = _this select 0; 
+	_lz_pos = _heli getVariable ["GRAD_WP_targetPos", [0,0,0]];
+	_ramp_start = 2000; _ramp_end = 200; //slow down ramp start / end
+	_speed_max = 300; _speed_min = 10; //initial / final speed
+	_alt_max = 40; _alt_min = 15; //initial / final altitude
+	
+	_heli forceSpeed _speed_max; _heli flyInHeight _alt_max; //set starting speed / altitude
+	
+	waitUntil{sleep 1; ((alive _heli) && (_heli distance2D _lz_pos) < _ramp_start) || !(alive _heli)}; //wait until ramp start distance
+	while {(_heli distance2D _lz_pos) > _ramp_end && (alive _heli)} do { //while over ramp end
+		_distance=_heli distance2D _lz_pos; //current distance to lz
+		
+		_tmp_speed = (((_distance-_ramp_end)/(_ramp_start-_ramp_end))*(_speed_max-_speed_min))+_speed_min; //compute new speed
+		_tmp_alt = (((_distance-_ramp_end)/(_ramp_start-_ramp_end))*(_alt_max-_alt_min))+_alt_min; //compute new altitude
+		
+		_heli forceSpeed _tmp_speed; _heli flyInHeight _tmp_alt; //set new speed / altitude
+		//[format["_tmp_speed: %1 ,_tmp_alt: %2",_tmp_speed,_tmp_alt]] call NNS_fnc_debugOutput; //debug
+		sleep 1;
+	};
+};
 
 
 _helicopter addEventHandler ["HandleDamage", {
@@ -66,13 +96,16 @@ _helicopter addEventHandler ["HandleDamage", {
             [_unit, "USER\scripts\hitVehicleFX.sqf"] remoteExec ["BIS_fnc_execVM", 0, _unit];
         };
 
+		_unit enableAI "AUTOCOMBAT";
+		_unit enableAI "Autotarget";
+
         private _startpoint = _unit getVariable ["GRAD_WP_originPos", [0,0,0]];
         private _waypoint = group _unit addWaypoint [_startpoint, 1];
         group _unit setCurrentWaypoint [group _unit, 0];
 
 
         private _hpad = "Land_HelipadEmpty_F" createVehicle [0,0,0];
-        _hpad setPosASL _pos;
+        _hpad setPosASL _startpoint;
         _unit landAt [_hpad, "LAND"];
 
         0

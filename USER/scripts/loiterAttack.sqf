@@ -24,6 +24,13 @@ _waypoint setWaypointLoiterRadius 500;
 
 _helicopter flyInHeight 300;
 
+_helicopter setCombatMode "RED";
+_helicopter enableAttack true;
+group _helicopter setVariable ["lambs_danger_disableGroupAI", true, true];
+_helicopter setVariable ["lambs_danger_disableAI", true, true];
+_helicopter allowFleeing 0;
+_helicopter setskill ["courage",1];
+
 
 
 
@@ -48,7 +55,7 @@ _helicopter addEventHandler ["HandleDamage", {
 
 
         private _hpad = "Land_HelipadEmpty_F" createVehicle [0,0,0];
-        _hpad setPosASL _pos;
+        _hpad setPosASL _startpoint;
         _unit landAt [_hpad, "LAND"];
 
         0

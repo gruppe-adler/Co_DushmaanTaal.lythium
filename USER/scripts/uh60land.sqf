@@ -14,7 +14,8 @@ _uh60 flyInHeight 4;
 
 [{
     params ["_uh60"];
-    getPos _uh60 select 2 < 0.5
+	private _targetPos = _uh60 getVariable ["GRAD_WP_targetPos", [0,0,0]];
+    getPos _uh60 select 2 < 1 && _uh60 distance2d _targetPos < 100
 },{
     params ["_uh60", "_originPos"];
     doStop _uh60;
@@ -35,6 +36,7 @@ _uh60 flyInHeight 4;
         params ["_uh60"];
         (count (fullCrew [ _uh60, "cargo" ] apply { _x select 0 })) < 1
     },{
+		{
             params ["_uh60", "_originPos", "_helipad"];
             [_uh60] doFollow _uh60;
             private _wp = (group _uh60) addWaypoint [_originPos, 0];
@@ -44,6 +46,8 @@ _uh60 flyInHeight 4;
             _wp setWaypointStatements ["true", "
                 { deleteVehicle _x } foreach  thislist + [vehicle this]
             "];
+
+		}, [_uh60, _originPos, _helipad], (random 2)] call CBA_fnc_waitAndExecute;
 
     }, [_uh60, _originPos, _helipad]] call CBA_fnc_waitUntilAndExecute;
 
