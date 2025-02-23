@@ -36,7 +36,7 @@ _uh60 flyInHeight 4;
         params ["_uh60"];
         (count (fullCrew [ _uh60, "cargo" ] apply { _x select 0 })) < 1
     },{
-		{
+		[{
             params ["_uh60", "_originPos", "_helipad"];
             [_uh60] doFollow _uh60;
             private _wp = (group _uh60) addWaypoint [_originPos, 0];

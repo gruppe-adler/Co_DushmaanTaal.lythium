@@ -61,7 +61,7 @@ _helicopter doMove _position; //start move to lz, note: move looks better than a
 [_helicopter] spawn { //progressive slow down to limit heli pitch
 	_heli = _this select 0; 
 	_lz_pos = _heli getVariable ["GRAD_WP_targetPos", [0,0,0]];
-	_ramp_start = 2000; _ramp_end = 200; //slow down ramp start / end
+	_ramp_start = 3000; _ramp_end = 200; //slow down ramp start / end
 	_speed_max = 300; _speed_min = 10; //initial / final speed
 	_alt_max = 40; _alt_min = 15; //initial / final altitude
 	

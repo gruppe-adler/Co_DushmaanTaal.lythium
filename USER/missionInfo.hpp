@@ -3,7 +3,7 @@
 */
 
 author = "nomisum für Gruppe Adler";                                               // Missionsersteller
-onLoadName = "CO RozbitiHolovy";                                                   // Name der Mission
+onLoadName = "CO Dushman Taal";                                                   // Name der Mission
 onLoadMission = "";                                                             // Beschreibung der Mission (wird im Ladebildschirm unterhalb des Ladebildes angezeigt)
 loadScreen = "data\loadpic.paa";                                                // Ladebild
 overviewPicture = "";                                                           // Bild, das in der Missionsauswahl angezeigt wird
