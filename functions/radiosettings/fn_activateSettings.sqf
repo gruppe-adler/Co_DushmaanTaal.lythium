@@ -6,6 +6,7 @@ if !(isClass (configFile >> "CfgPatches" >> "tfar_core")) exitWith {
 
 _loadoutWaitCondition = if (isClass (missionConfigFile >> "CfgFunctions" >> "GRAD_loadout")) then {{player getVariable ["GRAD_loadout_applicationCount", 0] > 0}} else {true};
 [_loadoutWaitCondition, {
+    if (count assignedItems player < 4) exitWith {INFO("not enough items in loadout")};
     if ((assignedItems player) select 3 == "") exitWith {INFO("No radio in loadout.")};
 
     [] call grad_missionSetup_fnc_waitForRadioInit;

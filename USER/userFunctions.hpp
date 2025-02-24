@@ -6,3 +6,4 @@
 #include "zeusmodules\cfgFunctions.hpp"
 #include "utils\cfgFunctions.hpp"
 #include "autoinits\cfgFunctions.hpp"
+#include "grad_grasscutter\cfgFunctions.hpp"
